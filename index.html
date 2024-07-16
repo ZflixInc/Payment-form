@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Checkout</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('https://www.digitaltrends.com/wp-content/uploads/2021/08/pluto-tv-best-free-movie-apps-01.jpg?fit=348%2C620&p=1');
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #333;
+  }
+
+  .container {
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff; /* Ensure form background remains white */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"], input[type="email"], input[type="tel"], select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  #start-payment-button {
+    cursor: pointer;
+    background-color: #e60000;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+
+  #start-payment-button:hover {
+    background-color: #cc0000;
+  }
+
+  .logo {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .logo img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">
+    <img src="https://i.postimg.cc/w7pwFM88/d61eea2f.png" alt="Logo">
+  </div>
+  
+  <h1>Payment Checkout</h1>
+  <form id="payment-form" method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
+    <div class="form-group">
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="customer[name]" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" name="customer[email]" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="customer[phone_number]" required>
+    </div>
+
+    <div class="form-group">
+      <label for="subscription">Select Subscription:</label>
+      <select id="subscription" name="subscription" required>
+        <option value="3500">UGX 3,500 - Weekly</option>
+        <option value="7500">UGX 7,500 - 2 Weeks</option>
+        <option value="15000">UGX 15,000 - Monthly</option>
+        <option value="30000">UGX 30,000 - 2 Months</option>
+      </select>
+    </div>
+
+    <div>
+      <strong>Total Amount:</strong> <span id="total-amount">UGX 3,500</span>
+    </div>
+
+    <input type="hidden" name="public_key" value="FLWPUBK-523064aede3a401c4d29881810a13b0f-X" />
+    <input type="hidden" name="tx_ref" value="txref-81123" />
+    <input type="hidden" name="amount" id="amount" value="3500" />
+    <input type="hidden" name="currency" value="UGX" />
+    <input type="hidden" name="meta[source]" value="docs-html-test" />
+    
+    <button type="submit" id="start-payment-button">Pay Now</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('subscription').addEventListener('change', function() {
+    var selectedAmount = parseInt(this.value);
+    document.getElementById('total-amount').textContent = 'UGX ' + selectedAmount.toLocaleString();
+    document.getElementById('amount').value = selectedAmount;
+  });
+</script>
+
+</body>
+</html>
